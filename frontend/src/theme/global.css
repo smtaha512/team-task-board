@@ -1,0 +1,10 @@
+/* @import "tailwindcss"; */
+
+
+.opacity-30 {
+  opacity: 30%;
+}
+
+.ring-primary {
+  --ion-border-color: red;
+}
