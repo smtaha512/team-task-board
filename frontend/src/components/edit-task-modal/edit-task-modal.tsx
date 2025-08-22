@@ -1,7 +1,7 @@
 import type { OverlayEventDetail } from '@ionic/core';
 import { useIonModal } from '@ionic/react';
 import { useState } from 'react';
-import { type Task } from '../../types/task';
+import { Task } from '../../api/tasks/types';
 import { EditTask } from './edit-task';
 
 export function useEditTaskModal() {
@@ -21,9 +21,9 @@ export function useEditTaskModal() {
 
     present({
       onWillDismiss: (event: CustomEvent<OverlayEventDetail<Task>>) => {
-        const { role, data } = event.detail;
+        const { data } = event.detail;
 
-        if (role === 'confirm' && data) {
+        if (data) {
           setUpdatedTask(data);
         }
 
