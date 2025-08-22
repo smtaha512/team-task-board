@@ -5,10 +5,8 @@ import {
   IonCardHeader,
   IonCol,
   IonContent,
-  IonFooter,
   IonGrid,
   IonHeader,
-  IonIcon,
   IonItem,
   IonLabel,
   IonRow,
@@ -16,18 +14,10 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { menuOutline } from 'ionicons/icons';
-
-const ColumnNames = {
-  TODO: 'Todo',
-  IN_PROGRESS: 'In Progress',
-  DONE: 'Done',
-} as const;
-
-interface Column {
-  id: (typeof ColumnNames)[keyof typeof ColumnNames];
-  title: (typeof ColumnNames)[keyof typeof ColumnNames];
-}
+import { useEffect } from 'react';
+import { useEditTaskModal } from '../components/edit-task-modal/edit-task-modal';
+import { ColumnNames, type Column } from '../types/column';
+import { TaskStatuses, type Task } from '../types/task';
 
 const columns: Column[] = [
   { id: ColumnNames.TODO, title: ColumnNames.TODO },
@@ -35,29 +25,12 @@ const columns: Column[] = [
   { id: ColumnNames.DONE, title: ColumnNames.DONE },
 ];
 
-const TaskStatuses = {
-  TODO: 'Todo',
-  IMPLEMENTATION: 'Implementation',
-  IN_CODE_REVIEW: 'In code review',
-  READY_FOR_QA: 'Ready for QA',
-  IN_QA: 'In QA',
-  READY_FOR_DEPLOYMENT: 'Ready for deployment',
-  IN_PRODUCTION: 'In production',
-};
-
-interface Task {
-  id: string;
-  title: string;
-  description: string;
-  column: Column;
-  status: (typeof TaskStatuses)[keyof typeof TaskStatuses];
-}
-
 const tasks: Task[] = [
   {
     id: 'title-1',
     title: 'Title 1',
     description:
+      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi, id impedit cum unde numquam, quod et nisi minus ea veritatis nulla eligendi expedita dignissimos. Accusantium saepe et dicta facere assumenda.' +
       'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi, id impedit cum unde numquam, quod et nisi minus ea veritatis nulla eligendi expedita dignissimos. Accusantium saepe et dicta facere assumenda.',
     status: TaskStatuses.TODO,
     column: columns.at(0)!,
@@ -128,6 +101,12 @@ const columnTasks = tasks.reduce(
 );
 
 export function KanbanBoard() {
+  const { updatedTask, openEditTaskModal } = useEditTaskModal();
+
+  useEffect(() => {
+    console.log(updatedTask);
+  }, [updatedTask]);
+
   return (
     <>
       <IonHeader>
@@ -160,22 +139,18 @@ export function KanbanBoard() {
                     </IonItem>
                   </IonCardHeader>
                   <IonCardContent style={{ overflowY: 'scroll', height: '80vh' }}>
-                    {columnTasks[col.id]?.map((item) => (
-                      <IonCard className="ion-margin-vertical" key={item.id}>
-                        <IonCardHeader>
-                          <IonItem>
-                            <IonLabel>{item.title}</IonLabel>
-                          </IonItem>
-                        </IonCardHeader>
+                    {columnTasks[col.id]?.map((task) => (
+                      <IonCard
+                        onClick={() => openEditTaskModal(task)}
+                        button
+                        className="ion-margin-vertical"
+                        key={task.id}
+                      >
                         <IonCardContent>
-                          <IonText>{item.description}</IonText>
+                          <IonRow>
+                            <IonLabel>{task.title}</IonLabel>
+                          </IonRow>
                         </IonCardContent>
-                        <IonFooter>
-                          <IonItem>
-                            <IonText color={'tertiary'}>{item.status}</IonText>
-                            <IonIcon slot="end" icon={menuOutline} />
-                          </IonItem>
-                        </IonFooter>
                       </IonCard>
                     ))}
                   </IonCardContent>
