@@ -18,11 +18,6 @@ export class ApiDocsConfig {
       .setTitle(`${appName} API Docs`)
       .setDescription(`REST API Documentation for ${appName}`)
       .setVersion('1.0')
-      .addBearerAuth({
-        name: 'Authorization',
-        description: 'Please enter token without Bearer keyword',
-        type: 'http',
-      })
       .build();
   }
 }
