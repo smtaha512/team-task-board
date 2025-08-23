@@ -39,4 +39,10 @@ export class TaskTypeOrmRepository extends TaskRepository {
   async deleteTask(id: string): Promise<void> {
     await this.repository.delete({ id });
   }
+
+  async listAllTasks(): Promise<Task[]> {
+    const tasks = await this.repository.find();
+
+    return tasks.map((task) => TaskTypeOrmEntity.toDomain(task));
+  }
 }

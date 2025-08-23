@@ -18,6 +18,7 @@ export class Task {
     this.id = task.id ?? createTaskId();
     this.title = task.title ?? '';
     this.description = task.description ?? '';
+    this.columnId = task.columnId ?? '';
   }
 
   static create(task: Partial<Task>) {
@@ -25,6 +26,7 @@ export class Task {
       id: task.id,
       description: task.description,
       title: task.title,
+      columnId: task.columnId,
     });
   }
 
