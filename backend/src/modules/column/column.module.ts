@@ -1,8 +1,19 @@
-import { Module } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ColumnRepository } from '../domain/column.repository';
 import { ColumnController } from './adapters/controllers/column/column.controller';
-import { FetchColumnsUseCase } from './app/use-cases/fetch-columns.use-cae';
+import { ColumnTypeOrmEntity } from './adapters/persistence/column.typeorm.entity';
+import { ColumnTypeOrmRepository } from './adapters/persistence/column.typeorm.repository';
+import { FetchColumnsUseCase } from './app/use-cases/fetch-columns.use-case';
 
-const useCases = [FetchColumnsUseCase];
+const repositories: Provider[] = [
+  { provide: ColumnRepository, useClass: ColumnTypeOrmRepository },
+];
+const useCases: Provider[] = [FetchColumnsUseCase];
 
-@Module({ providers: [...useCases], controllers: [ColumnController] })
+@Module({
+  imports: [TypeOrmModule.forFeature([ColumnTypeOrmEntity])],
+  providers: [...repositories, ...useCases],
+  controllers: [ColumnController],
+})
 export class ColumnModule {}

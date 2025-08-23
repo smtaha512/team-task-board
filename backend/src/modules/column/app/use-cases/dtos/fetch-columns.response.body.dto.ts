@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Column } from '../../../../domain/column';
 
 export class FetchColumnsResponseBodyDto {
   @ApiProperty()
@@ -7,13 +8,7 @@ export class FetchColumnsResponseBodyDto {
   @ApiProperty()
   title: string;
 
-  static create({
-    id,
-    title,
-  }: {
-    id: string;
-    title: string;
-  }): FetchColumnsResponseBodyDto {
+  static create({ id, title }: Column): FetchColumnsResponseBodyDto {
     return { id, title } satisfies FetchColumnsResponseBodyDto;
   }
 }

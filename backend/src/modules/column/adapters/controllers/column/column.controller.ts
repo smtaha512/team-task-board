@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { FetchColumnsUseCase } from '../../../app/use-cases/fetch-columns.use-cae';
+import { FetchColumnsUseCase } from '../../../app/use-cases/fetch-columns.use-case';
 
 @Controller('/boards/columns')
 export class ColumnController {
