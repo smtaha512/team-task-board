@@ -1,7 +1,7 @@
 import { createId } from '../../../shared/utils/create-id';
 import { Column } from '../../column/domain/column';
 
-const createTaskId = createId('tsk');
+export const createTaskId = createId('tsk');
 
 export class Task {
   id: string;
@@ -15,7 +15,7 @@ export class Task {
   column: Column;
 
   private constructor(task: Partial<Task>) {
-    this.id = createTaskId();
+    this.id = task.id ?? createTaskId();
     this.title = task.title ?? '';
     this.description = task.description ?? '';
   }
@@ -31,5 +31,21 @@ export class Task {
   addToColumn(column: Column) {
     this.column = column;
     this.columnId = column.id;
+  }
+
+  updateTitle(title: string) {
+    if (title === undefined) {
+      return;
+    }
+
+    this.title = title;
+  }
+
+  updateDescription(description: string) {
+    if (description === undefined) {
+      return;
+    }
+
+    this.description = description;
   }
 }

@@ -32,7 +32,13 @@ export class TaskTypeOrmEntity extends BaseEntity(
   })
   column: ColumnTypeOrmEntity;
 
-  static toDomain(task: TaskTypeOrmEntity): Task {
-    return Task.create(task);
+  static toDomain(entity: TaskTypeOrmEntity): Task {
+    const task = Task.create(entity);
+
+    if (entity.column) {
+      task.addToColumn(entity.column);
+    }
+
+    return task;
   }
 }
