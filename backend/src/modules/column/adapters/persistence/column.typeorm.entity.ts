@@ -1,6 +1,6 @@
 import { Entity, Column as TypeOrmColumn } from 'typeorm';
 import { BaseEntity } from '../../../../shared/database/base.entity';
-import { Column } from '../../../domain/column';
+import { Column } from '../../domain/column';
 
 const tableName = 'column';
 

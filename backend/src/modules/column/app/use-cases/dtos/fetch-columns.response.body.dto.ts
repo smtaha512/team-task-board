@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column } from '../../../../domain/column';
+import { Column } from '../../../domain/column';
 
 export class FetchColumnsResponseBodyDto {
   @ApiProperty()

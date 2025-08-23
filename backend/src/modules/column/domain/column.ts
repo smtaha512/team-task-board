@@ -1,4 +1,4 @@
-import { createId } from '../../shared/utils/create-id';
+import { createId } from '../../../shared/utils/create-id';
 
 const createColumnId = createId('_')('col');
 

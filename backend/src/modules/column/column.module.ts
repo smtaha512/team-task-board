@@ -1,10 +1,10 @@
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ColumnRepository } from '../domain/column.repository';
 import { ColumnController } from './adapters/controllers/column/column.controller';
 import { ColumnTypeOrmEntity } from './adapters/persistence/column.typeorm.entity';
 import { ColumnTypeOrmRepository } from './adapters/persistence/column.typeorm.repository';
 import { FetchColumnsUseCase } from './app/use-cases/fetch-columns.use-case';
+import { ColumnRepository } from './domain/column.repository';
 
 const repositories: Provider[] = [
   { provide: ColumnRepository, useClass: ColumnTypeOrmRepository },
