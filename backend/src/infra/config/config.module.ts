@@ -4,7 +4,9 @@ import {
   ConfigModule as NestConfigModule,
 } from '@nestjs/config';
 import { ConfigValidationSchema } from './config-validation.schema';
+import { databaseConfig, DatabaseConfig } from './database.config';
 import { EnvConfig, envConfig, getEnvFilePath } from './env.config';
+import { srcConfig, SrcConfig } from './src.config';
 
 function validateEnvironmentConfig(
   config: ConfigValidationSchema,
@@ -24,8 +26,16 @@ function validateEnvironmentConfig(
   return validationResult.value;
 }
 
-type EnvConfigToLoad = [ConfigFactory<EnvConfig>];
-const envConfigsToLoad: EnvConfigToLoad = [envConfig];
+type EnvConfigToLoad = [
+  ConfigFactory<DatabaseConfig>,
+  ConfigFactory<EnvConfig>,
+  ConfigFactory<SrcConfig>,
+];
+const envConfigsToLoad: EnvConfigToLoad = [
+  databaseConfig,
+  envConfig,
+  srcConfig,
+];
 
 @Module({
   imports: [
