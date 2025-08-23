@@ -1,4 +1,8 @@
-import { CreateTaskRequestBodyDto, FetchTaskRequestBodyDto } from './types';
+import {
+  CreateTaskRequestBodyDto,
+  FetchTaskRequestBodyDto,
+  Task,
+} from './types';
 
 // TODO: Should be passed using config/environment variables
 const apiBaseUrl = 'http://localhost:3000';
@@ -21,6 +25,30 @@ export async function createTask(
   await fetch(`${apiBaseUrl}/tasks`, {
     method: 'POST',
     body: JSON.stringify({ ...body, columnId }),
-    headers: {},
+    headers,
   });
+}
+
+// TODO: Add proper error handling
+export async function updateTask({ id, ...task }: Task) {
+  const headers = new Headers();
+  headers.set('content-type', 'application/json');
+
+  await fetch(`${apiBaseUrl}/tasks/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ description: task.description, title: task.title }),
+    headers,
+  });
+}
+
+// TODO: Add proper error handling
+export async function deleteTask(id: string) {
+  await fetch(`${apiBaseUrl}/tasks/${id}`, { method: 'DELETE' });
+}
+
+// TODO: Add proper error handling
+export async function listTasks() {
+  const response = await fetch(`${apiBaseUrl}/tasks`);
+
+  return response.json();
 }
