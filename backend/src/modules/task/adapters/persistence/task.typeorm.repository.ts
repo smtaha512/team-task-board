@@ -35,4 +35,8 @@ export class TaskTypeOrmRepository extends TaskRepository {
   async updateTask(task: Task): Promise<void> {
     await this.repository.update({ id: task.id }, task);
   }
+
+  async deleteTask(id: string): Promise<void> {
+    await this.repository.delete({ id });
+  }
 }

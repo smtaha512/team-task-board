@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -11,6 +11,7 @@ import { ParseIdPipe } from '../../../../shared/common/validation-pipes/parse-id
 import { CannotFindColumnException } from '../../../column/domain/exceptions/cannot-find-column.exceptions';
 import { CreateTaskRequestBodyDto } from '../../app/use-cases/create-task/create-task.request.body.dto';
 import { CreateTaskUseCase } from '../../app/use-cases/create-task/create-task.use-case';
+import { DeleteTaskUseCase } from '../../app/use-cases/delete-task/delete-task.use-case';
 import { UpdateTaskRequestBodyDto } from '../../app/use-cases/update-task/update-task.request.body.dto';
 import { UpdateTaskUseCase } from '../../app/use-cases/update-task/update-task.use-case';
 import { CannotFindTaskException } from '../../domain/exceptions/can-not-find-task.exception';
@@ -22,6 +23,7 @@ export class TaskController {
   constructor(
     private readonly createTaskUseCase: CreateTaskUseCase,
     private readonly updateTaskUseCase: UpdateTaskUseCase,
+    private readonly deleteTaskUseCase: DeleteTaskUseCase,
   ) {}
 
   @ApiOperation({ summary: 'Create a task' })
@@ -38,9 +40,8 @@ export class TaskController {
     return this.createTaskUseCase.execute(task);
   }
 
-  @Patch(':id')
-  @ApiParam({ name: 'id', type: String, example: createTaskId() })
   @ApiOperation({ summary: 'Update a task' })
+  @ApiParam({ name: 'id', type: String, example: createTaskId() })
   @ApiOkResponse({ type: undefined, description: 'Task updated successfully' })
   @ApiNotFoundResponse({
     type: CannotFindTaskException,
@@ -52,5 +53,13 @@ export class TaskController {
     @Body() task: UpdateTaskRequestBodyDto,
   ): Promise<void> {
     return this.updateTaskUseCase.execute(id, task);
+  }
+
+  @ApiOperation({ summary: 'Delete a task' })
+  @ApiParam({ name: 'id', type: String, example: createTaskId() })
+  @ApiOkResponse({ type: undefined, description: 'Task deleted successfully' })
+  @Delete(':id')
+  deleteTask(@Param('id', ParseIdPipe) id: string): Promise<void> {
+    return this.deleteTaskUseCase.execute(id);
   }
 }
