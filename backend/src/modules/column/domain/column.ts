@@ -1,6 +1,6 @@
 import { createId } from '../../../shared/utils/create-id';
 
-const createColumnId = createId('_')('col');
+export const createColumnId = createId('col');
 
 export class Column {
   id: string;

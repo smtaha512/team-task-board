@@ -15,5 +15,6 @@ const useCases: Provider[] = [FetchColumnsUseCase];
   imports: [TypeOrmModule.forFeature([ColumnTypeOrmEntity])],
   providers: [...repositories, ...useCases],
   controllers: [ColumnController],
+  exports: [ColumnRepository],
 })
 export class ColumnModule {}
