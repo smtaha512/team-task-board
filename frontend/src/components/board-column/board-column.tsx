@@ -22,9 +22,13 @@ interface BoardColumnProps {
   onUpdateTask: (task: Task) => void;
 }
 
-const newTask: Task = { description: '', id: '', status: '', title: '' };
+const newTask: Task = { description: '', id: '', columnId: '', title: '' };
 
-export function BoardColumn({ column, children, onUpdateTask }: BoardColumnProps) {
+export function BoardColumn({
+  column,
+  children,
+  onUpdateTask,
+}: BoardColumnProps) {
   const { openEditTaskModal, updatedTask } = useEditTaskModal();
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export function BoardColumn({ column, children, onUpdateTask }: BoardColumnProps
   }, [onUpdateTask, updatedTask]);
 
   return (
-    <IonCol>
+    <IonCol size="4">
       <IonCard>
         <IonCardHeader>
           <IonItem>
@@ -50,7 +54,9 @@ export function BoardColumn({ column, children, onUpdateTask }: BoardColumnProps
             </IonButton>
           </IonButtons>
         </IonCardHeader>
-        <IonCardContent style={{ overflowY: 'scroll', height: '80vh' }}>{children(column.id)}</IonCardContent>
+        <IonCardContent style={{ overflowY: 'scroll', height: '80vh' }}>
+          {children(column.id)}
+        </IonCardContent>
       </IonCard>
     </IonCol>
   );

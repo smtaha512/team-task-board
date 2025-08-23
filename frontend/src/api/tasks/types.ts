@@ -2,8 +2,10 @@ export interface Task {
   id: string;
   title: string;
   description: string;
-  status: string;
+  columnId: string;
 }
+
+export type FetchTaskRequestBodyDto = Task;
 
 export interface FetchTasksGroupedByColumnsResponseBodyDto {
   [id: string]: Task[];
