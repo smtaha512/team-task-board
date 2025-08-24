@@ -1,5 +1,12 @@
 import { useDraggable } from '@dnd-kit/core';
-import { IonCard, IonCardContent, IonLabel, IonRow } from '@ionic/react';
+import {
+  IonCard,
+  IonCardContent,
+  IonCol,
+  IonGrid,
+  IonLabel,
+  IonRow,
+} from '@ionic/react';
 import { Task } from '../../api/tasks/types';
 
 interface TaskCardProps {
@@ -25,16 +32,20 @@ export function TaskCard({ task, onClick }: TaskCardProps) {
       button
       ref={setNodeRef}
       style={{ ...style, zIndex: 9999, position: 'relative' }}
-      {...listeners}
-      {...attributes}
       className="ion-margin-vertical"
       key={task.id}
       onClick={() => onClick(task)}
+      {...listeners}
+      {...attributes}
     >
       <IonCardContent>
-        <IonRow>
-          <IonLabel>{task.title}</IonLabel>
-        </IonRow>
+        <IonGrid>
+          <IonRow>
+            <IonCol size="10">
+              <IonLabel>{task.title}</IonLabel>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
       </IonCardContent>
     </IonCard>
   );
