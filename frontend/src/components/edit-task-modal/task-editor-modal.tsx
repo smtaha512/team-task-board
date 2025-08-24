@@ -8,40 +8,62 @@ import {
   IonItem,
   IonModal,
   IonPage,
+  IonSelect,
+  IonSelectOption,
   IonTextarea,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
 import { close } from 'ionicons/icons';
 import { useRef, useState } from 'react';
+import { FetchColumnsResponseBodyDto } from '../../api/columns';
 import { Task } from '../../api/tasks';
+import { UpdateTaskRequestBodyDto } from '../../api/tasks/types';
 import { useUpdateTask } from '../../hooks/use-update-task';
 
 interface TaskEditorModalProps {
   onDismiss: () => void;
   task: Task;
+  columns: FetchColumnsResponseBodyDto[];
 }
 
-export function TaskEditorModal({ onDismiss, task }: TaskEditorModalProps) {
+function isTaskUpdated(
+  update: Pick<Task, 'columnId' | 'description' | 'title'>,
+  task: Task,
+) {
+  return (
+    task.title !== update.title ||
+    task.description !== update.description ||
+    task.columnId !== update.columnId
+  );
+}
+
+export function TaskEditorModal({
+  columns,
+  onDismiss,
+  task,
+}: TaskEditorModalProps) {
   const ref = useRef<HTMLIonModalElement>(null);
   const [isOpen, setIsOpen] = useState(true);
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
+  const [columnId, setColumnId] = useState(task.columnId);
 
   const { mutate, isPending } = useUpdateTask();
 
   const closeModal = () => setIsOpen(false);
 
   function handleDismiss() {
-    if (task.title === title && task.description === description) {
+    if (!isTaskUpdated({ title, description, columnId }, task)) {
       closeModal();
       return;
     }
 
-    const updateTaskParams = {
+    const updateTaskParams: UpdateTaskRequestBodyDto = {
       title: title || task.title,
       description: description ?? task.description,
       id: task.id,
+      columnId,
     };
 
     mutate(updateTaskParams, {
@@ -90,6 +112,21 @@ export function TaskEditorModal({ onDismiss, task }: TaskEditorModalProps) {
               onIonChange={(event) => setDescription(event.detail.value ?? '')}
               value={task.description}
             />
+          </IonItem>
+          <IonItem>
+            <IonSelect
+              label="Status"
+              labelPlacement="floating"
+              interface="popover"
+              value={columnId}
+              onIonChange={(event) => setColumnId(event.detail.value)}
+            >
+              {columns.map((column) => (
+                <IonSelectOption key={column.id} value={column.id}>
+                  {column.title}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
           </IonItem>
         </IonContent>
         <IonButton expand="block" onClick={handleDismiss} disabled={isPending}>

@@ -46,7 +46,11 @@ export async function updateTask({
 
   const response = await fetch(`${apiBaseUrl}/tasks/${id}`, {
     method: 'PATCH',
-    body: JSON.stringify({ description: task.description, title: task.title }),
+    body: JSON.stringify({
+      description: task.description,
+      title: task.title,
+      ...(task.columnId && { columnId: task.columnId }),
+    }),
     headers,
   });
 

@@ -14,10 +14,11 @@ export interface FetchTasksGroupedByColumnsResponseBodyDto {
 export interface CreateTaskRequestBodyDto {
   title: string;
   description: string;
-  // status: string;
 }
 
-export type UpdateTaskRequestBodyDto = CreateTaskRequestBodyDto &
-  Record<'id', string>;
+export interface UpdateTaskRequestBodyDto extends CreateTaskRequestBodyDto {
+  id: string;
+  columnId?: string;
+}
 
 export type ListAllTasksResponseBodyDto = Task;

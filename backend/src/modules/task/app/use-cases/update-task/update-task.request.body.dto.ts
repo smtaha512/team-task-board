@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsId } from '../../../../../shared/common/class-validators/is-id.validator';
 
 export class UpdateTaskRequestBodyDto {
   @ApiPropertyOptional()
@@ -12,4 +13,9 @@ export class UpdateTaskRequestBodyDto {
   @IsOptional()
   @IsString()
   description: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsId()
+  columnId: string;
 }

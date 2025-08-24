@@ -8,38 +8,19 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { useEffect, useState } from 'react';
-import { fetchColumns, FetchColumnsResponseBodyDto } from '../../api/columns';
+import { useState } from 'react';
 import { Task } from '../../api/tasks/types';
 import { BoardColumn } from '../../components/board-column/board-column';
 import { TaskEditorModal } from '../../components/edit-task-modal/task-editor-modal';
 import { TaskCard } from '../../components/task-card/task-card';
+import { useFetchColumns } from '../../hooks/use-fetch-columns';
 import { useListTasks } from '../../hooks/use-list-tasks';
-
-type TasksGroupedByColumns = Record<string, Task[]>;
-
-function groupTasksByColumns(tasks: Task[]): TasksGroupedByColumns {
-  return tasks.reduce((acc, curr) => {
-    const currentColumnId = curr.columnId;
-    const currentGroup = acc[currentColumnId];
-
-    if (!Array.isArray(currentGroup)) {
-      return { ...acc, [currentColumnId]: [curr] };
-    }
-
-    return { ...acc, [currentColumnId]: [...currentGroup, curr] };
-  }, {} as TasksGroupedByColumns);
-}
 
 export function KanbanBoard() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-  const [columns, setColumns] = useState<FetchColumnsResponseBodyDto[]>([]);
+  const { data: columns } = useFetchColumns();
   const { data: tasks } = useListTasks();
-
-  useEffect(() => {
-    fetchColumns().then((response) => setColumns(response));
-  }, []);
 
   return (
     <>
@@ -62,10 +43,10 @@ export function KanbanBoard() {
       <IonContent scrollX={true}>
         <IonGrid fixed style={{ minWidth: '1140px' }}>
           <IonRow>
-            {columns.map((col) => (
+            {columns?.map((col) => (
               <BoardColumn key={col.id} column={col}>
                 {tasks
-                  ?.filter((task) => task.columnId === col.id)
+                  .filter((task) => task.columnId === col.id)
                   .map((task) => (
                     <TaskCard
                       key={task.id}
@@ -82,6 +63,7 @@ export function KanbanBoard() {
         <TaskEditorModal
           onDismiss={() => setSelectedTask(null)}
           task={selectedTask}
+          columns={columns}
         />
       )}
     </>
