@@ -5,13 +5,14 @@ import {
   DatabaseConfig,
   DatabaseConfigInjectionKey,
 } from '../config/database.config';
+import { SrcConfig, SrcConfigInjectionKey } from '../config/src.config';
 import { dataSourceFactory } from './data-source';
 
 export const databaseProvider: Provider<DataSource> = {
   provide: 'DATA_SOURCE',
-  useFactory: async (databaseConfig: DatabaseConfig) => {
+  useFactory: async (databaseConfig: DatabaseConfig, srcConfig: SrcConfig) => {
     const dataSource = await new DataSource(
-      dataSourceFactory(databaseConfig),
+      dataSourceFactory(databaseConfig, srcConfig),
     ).initialize();
 
     await dataSource
@@ -20,5 +21,5 @@ export const databaseProvider: Provider<DataSource> = {
 
     return dataSource;
   },
-  inject: [DatabaseConfigInjectionKey],
+  inject: [DatabaseConfigInjectionKey, SrcConfigInjectionKey],
 };

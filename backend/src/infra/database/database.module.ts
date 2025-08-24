@@ -4,6 +4,7 @@ import {
   DatabaseConfigFeatureModule,
   DatabaseConfigInjectionKey,
 } from '../config/database.config';
+import { SrcConfigInjectionKey } from '../config/src.config';
 import { dataSourceFactory } from './data-source';
 import { databaseProvider } from './database.provider';
 
@@ -11,7 +12,7 @@ import { databaseProvider } from './database.provider';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: dataSourceFactory,
-      inject: [DatabaseConfigInjectionKey],
+      inject: [DatabaseConfigInjectionKey, SrcConfigInjectionKey],
     }),
     DatabaseConfigFeatureModule,
   ],

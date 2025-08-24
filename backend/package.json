@@ -24,7 +24,7 @@
     "start:debug": "NODE_ENV=local nest start --debug --watch",
     "start:prod": "npm run migration:run:prod && NODE_ENV=production node dist/main",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "NODE_ENV=test jest --watch --detectOpenHandles",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"

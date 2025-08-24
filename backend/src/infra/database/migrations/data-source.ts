@@ -17,8 +17,7 @@ async function buildDataSourceForMigrations(): Promise<DataSource> {
   const { srcFileExtension, srcRoot } = srcConfig;
 
   const dataSourceOptions: CustomDataSourceOptions = {
-    ...dataSourceFactory(databaseConfig),
-    migrations: [`${srcRoot}/infra/database/migrations/*.${srcFileExtension}`],
+    ...dataSourceFactory(databaseConfig, srcConfig),
     entities: [`${srcRoot}/modules/**/*.typeorm.entity.${srcFileExtension}`],
   };
 

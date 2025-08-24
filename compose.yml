@@ -20,7 +20,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=team_task_board_test
+      - POSTGRES_DB=team_task_board
 
   front_end:
     build: ./frontend
