@@ -1,0 +1,7 @@
+.fixed-height {
+  height: 100%;
+}
+
+.fixed-height::part(native) {
+  height: 100%;
+}

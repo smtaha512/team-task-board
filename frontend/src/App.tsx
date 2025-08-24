@@ -32,6 +32,7 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
+import './theme/global.css';
 import './theme/variables.css';
 
 setupIonicReact({ mode: 'md' });
