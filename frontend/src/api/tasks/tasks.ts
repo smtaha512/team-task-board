@@ -58,8 +58,10 @@ export async function updateTask({
 }
 
 // TODO: Add proper error handling
-export async function deleteTask(id: string) {
+export async function deleteTask(id: string): Promise<string> {
   await fetch(`${apiBaseUrl}/tasks/${id}`, { method: 'DELETE' });
+
+  return id;
 }
 
 // TODO: Add proper error handling

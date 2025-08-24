@@ -5,7 +5,6 @@ import {
   IonCardHeader,
   IonCol,
   IonItem,
-  IonLabel,
   IonTitle,
 } from '@ionic/react';
 import { ReactNode } from 'react';
@@ -29,9 +28,7 @@ export function BoardColumn({ column, children }: BoardColumnProps) {
       <IonCard>
         <IonCardHeader>
           <IonItem>
-            <IonLabel slot="start">
-              <IonTitle title={column.title}>{column.title}</IonTitle>
-            </IonLabel>
+            <IonTitle title={column.title}>{column.title}</IonTitle>
           </IonItem>
         </IonCardHeader>
         <IonCardContent
