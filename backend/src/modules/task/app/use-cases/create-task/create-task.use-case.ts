@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ColumnRepository } from '../../../../column/domain/column.repository';
 import { TaskRepository } from '../../../domain/task.repository';
-import { CreateTaskRequestBodyDto } from './create-task.request.body.dto';
+import { CreateTaskRequestBodyDto } from './dtos/create-task.request.body.dto';
+import { CreateTaskResponseBodyDto } from './dtos/create-task.response.body.dto';
 
 @Injectable()
 export class CreateTaskUseCase {
@@ -11,7 +12,9 @@ export class CreateTaskUseCase {
     private readonly columnRepository: ColumnRepository,
   ) {}
 
-  async execute(dto: CreateTaskRequestBodyDto) {
+  async execute(
+    dto: CreateTaskRequestBodyDto,
+  ): Promise<CreateTaskResponseBodyDto> {
     const column = await this.columnRepository.findColumnByIdOrFail(
       dto.columnId,
     );
@@ -20,6 +23,8 @@ export class CreateTaskUseCase {
 
     task.addToColumn(column);
 
-    await this.repository.createTask(task);
+    const savedTask = await this.repository.createTask(task);
+
+    return CreateTaskResponseBodyDto.create(savedTask);
   }
 }

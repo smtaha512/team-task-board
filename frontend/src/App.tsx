@@ -1,5 +1,6 @@
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Redirect, Route } from 'react-router-dom';
 import { KanbanBoard } from './pages/kanban-board';
 
@@ -35,19 +36,23 @@ import './theme/variables.css';
 
 setupIonicReact({ mode: 'md' });
 
+const queryClient = new QueryClient();
+
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <KanbanBoard />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+  <QueryClientProvider client={queryClient}>
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/home">
+            <KanbanBoard />
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  </QueryClientProvider>
 );
 
 export default App;

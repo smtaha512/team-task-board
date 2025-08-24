@@ -14,5 +14,5 @@ export interface FetchTasksGroupedByColumnsResponseBodyDto {
 export interface CreateTaskRequestBodyDto {
   title: string;
   description: string;
-  status: string;
+  // status: string;
 }

@@ -15,8 +15,10 @@ export class TaskTypeOrmRepository extends TaskRepository {
     super();
   }
 
-  async createTask(task: Task): Promise<void> {
-    await this.repository.save(task);
+  async createTask(task: Task): Promise<Task> {
+    const savedTask = await this.repository.save(task);
+
+    return TaskTypeOrmEntity.toDomain(savedTask);
   }
 
   async findTaskByIdOrFail(id: string): Promise<Task> {

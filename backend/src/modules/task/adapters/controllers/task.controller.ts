@@ -17,8 +17,9 @@ import {
 } from '@nestjs/swagger';
 import { ParseIdPipe } from '../../../../shared/common/validation-pipes/parse-id.pipe';
 import { CannotFindColumnException } from '../../../column/domain/exceptions/cannot-find-column.exceptions';
-import { CreateTaskRequestBodyDto } from '../../app/use-cases/create-task/create-task.request.body.dto';
 import { CreateTaskUseCase } from '../../app/use-cases/create-task/create-task.use-case';
+import { CreateTaskRequestBodyDto } from '../../app/use-cases/create-task/dtos/create-task.request.body.dto';
+import { CreateTaskResponseBodyDto } from '../../app/use-cases/create-task/dtos/create-task.response.body.dto';
 import { DeleteTaskUseCase } from '../../app/use-cases/delete-task/delete-task.use-case';
 import { ListAllTasksResponseBodyDto } from '../../app/use-cases/list-all-tasks/dtos/list-all-tasks.response.body.dto';
 import { ListAllTasksUseCase } from '../../app/use-cases/list-all-tasks/list-all-tasks.use-case';
@@ -39,7 +40,7 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Create a task' })
   @ApiCreatedResponse({
-    type: undefined,
+    type: CreateTaskResponseBodyDto,
     description: 'Task created successfully',
   })
   @ApiNotFoundResponse({

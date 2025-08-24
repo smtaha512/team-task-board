@@ -5,7 +5,7 @@ const apiBaseUrl = 'http://localhost:3000';
 
 // TODO: Add proper error handling
 export async function fetchColumns(): Promise<FetchColumnsResponseBodyDto[]> {
-  const response = await fetch(`${apiBaseUrl}/boards/columns`);
+  const response = await fetch(`${apiBaseUrl}/columns`);
 
   return response.json();
 }

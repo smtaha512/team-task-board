@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { IsId } from '../../../../../shared/common/class-validators/is-id.validator';
-import { createColumnId } from '../../../../column/domain/column';
-import { Task } from '../../../domain/task';
+import { IsId } from '../../../../../../shared/common/class-validators/is-id.validator';
+import { createColumnId } from '../../../../../column/domain/column';
+import { Task } from '../../../../domain/task';
 
 export class CreateTaskRequestBodyDto {
   @ApiProperty({ example: 'custom task title' })

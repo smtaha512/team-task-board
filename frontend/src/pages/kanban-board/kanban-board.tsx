@@ -64,13 +64,7 @@ export function KanbanBoard() {
         <IonGrid fixed style={{ minWidth: '1140px' }}>
           <IonRow>
             {columns.map((col) => (
-              <BoardColumn
-                key={col.id}
-                column={col}
-                onUpdateTask={(task) => {
-                  console.log(task);
-                }}
-              >
+              <BoardColumn key={col.id} column={col}>
                 {(id: string) =>
                   tasks[id]?.map((task) => (
                     <TaskCard key={task.id} task={task} />

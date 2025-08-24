@@ -15,18 +15,23 @@ export async function fetchTasks(): Promise<FetchTaskRequestBodyDto[]> {
 }
 
 // TODO: Add proper error handling
-export async function createTask(
-  columnId: string,
-  body: CreateTaskRequestBodyDto,
-): Promise<void> {
+export async function createTask({
+  body,
+  columnId,
+}: {
+  columnId: string;
+  body: CreateTaskRequestBodyDto;
+}): Promise<Task> {
   const headers = new Headers();
   headers.set('content-type', 'application/json');
 
-  await fetch(`${apiBaseUrl}/tasks`, {
+  const response = await fetch(`${apiBaseUrl}/tasks`, {
     method: 'POST',
     body: JSON.stringify({ ...body, columnId }),
     headers,
   });
+
+  return response.json();
 }
 
 // TODO: Add proper error handling
