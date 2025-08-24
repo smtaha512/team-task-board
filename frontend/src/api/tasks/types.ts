@@ -16,3 +16,8 @@ export interface CreateTaskRequestBodyDto {
   description: string;
   // status: string;
 }
+
+export type UpdateTaskRequestBodyDto = CreateTaskRequestBodyDto &
+  Record<'id', string>;
+
+export type ListAllTasksResponseBodyDto = Task;

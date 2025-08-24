@@ -10,10 +10,11 @@ import {
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { fetchColumns, FetchColumnsResponseBodyDto } from '../../api/columns';
-import { fetchTasks } from '../../api/tasks';
 import { Task } from '../../api/tasks/types';
 import { BoardColumn } from '../../components/board-column/board-column';
+import { TaskEditorModal } from '../../components/edit-task-modal/task-editor-modal';
 import { TaskCard } from '../../components/task-card/task-card';
+import { useListTasks } from '../../hooks/use-list-tasks';
 
 type TasksGroupedByColumns = Record<string, Task[]>;
 
@@ -31,16 +32,14 @@ function groupTasksByColumns(tasks: Task[]): TasksGroupedByColumns {
 }
 
 export function KanbanBoard() {
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
   const [columns, setColumns] = useState<FetchColumnsResponseBodyDto[]>([]);
-  const [tasks, setTasks] = useState<TasksGroupedByColumns>({});
+  const { data: tasks } = useListTasks();
 
   useEffect(() => {
     fetchColumns().then((response) => setColumns(response));
   }, []);
-
-  useEffect(() => {
-    fetchTasks().then(groupTasksByColumns).then(setTasks);
-  }, [columns]);
 
   return (
     <>
@@ -65,16 +64,26 @@ export function KanbanBoard() {
           <IonRow>
             {columns.map((col) => (
               <BoardColumn key={col.id} column={col}>
-                {(id: string) =>
-                  tasks[id]?.map((task) => (
-                    <TaskCard key={task.id} task={task} />
-                  ))
-                }
+                {tasks
+                  ?.filter((task) => task.columnId === col.id)
+                  .map((task) => (
+                    <TaskCard
+                      key={task.id}
+                      task={task}
+                      onClick={setSelectedTask}
+                    />
+                  ))}
               </BoardColumn>
             ))}
           </IonRow>
         </IonGrid>
       </IonContent>
+      {selectedTask && (
+        <TaskEditorModal
+          onDismiss={() => setSelectedTask(null)}
+          task={selectedTask}
+        />
+      )}
     </>
   );
 }

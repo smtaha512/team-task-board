@@ -1,7 +1,9 @@
 import {
   CreateTaskRequestBodyDto,
   FetchTaskRequestBodyDto,
+  ListAllTasksResponseBodyDto,
   Task,
+  UpdateTaskRequestBodyDto,
 } from './types';
 
 // TODO: Should be passed using config/environment variables
@@ -35,15 +37,20 @@ export async function createTask({
 }
 
 // TODO: Add proper error handling
-export async function updateTask({ id, ...task }: Task) {
+export async function updateTask({
+  id,
+  ...task
+}: UpdateTaskRequestBodyDto): Promise<Task> {
   const headers = new Headers();
   headers.set('content-type', 'application/json');
 
-  await fetch(`${apiBaseUrl}/tasks/${id}`, {
+  const response = await fetch(`${apiBaseUrl}/tasks/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ description: task.description, title: task.title }),
     headers,
   });
+
+  return response.json();
 }
 
 // TODO: Add proper error handling
@@ -52,7 +59,7 @@ export async function deleteTask(id: string) {
 }
 
 // TODO: Add proper error handling
-export async function listTasks() {
+export async function listTasks(): Promise<ListAllTasksResponseBodyDto[]> {
   const response = await fetch(`${apiBaseUrl}/tasks`);
 
   return response.json();

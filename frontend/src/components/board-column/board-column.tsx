@@ -14,7 +14,7 @@ import { AddTaskModal } from '../add-task-modal/add-task-modal';
 
 interface BoardColumnProps {
   column: FetchColumnsResponseBodyDto;
-  children: (id: string) => ReactNode;
+  children: ReactNode;
 }
 
 const newTask: Task = { description: '', id: '', columnId: '', title: '' };
@@ -31,7 +31,7 @@ export function BoardColumn({ column, children }: BoardColumnProps) {
           </IonItem>
         </IonCardHeader>
         <IonCardContent style={{ overflowY: 'scroll', height: '75vh' }}>
-          {children(column.id)}
+          {children}
         </IonCardContent>
         <AddTaskModal column={column} />
       </IonCard>

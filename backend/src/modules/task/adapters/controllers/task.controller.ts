@@ -23,6 +23,7 @@ import { CreateTaskResponseBodyDto } from '../../app/use-cases/create-task/dtos/
 import { DeleteTaskUseCase } from '../../app/use-cases/delete-task/delete-task.use-case';
 import { ListAllTasksResponseBodyDto } from '../../app/use-cases/list-all-tasks/dtos/list-all-tasks.response.body.dto';
 import { ListAllTasksUseCase } from '../../app/use-cases/list-all-tasks/list-all-tasks.use-case';
+import { UpdateTaskResponseBodyDto } from '../../app/use-cases/update-task/dtos/update-task.response.body.dto';
 import { UpdateTaskRequestBodyDto } from '../../app/use-cases/update-task/update-task.request.body.dto';
 import { UpdateTaskUseCase } from '../../app/use-cases/update-task/update-task.use-case';
 import { CannotFindTaskException } from '../../domain/exceptions/can-not-find-task.exception';
@@ -54,7 +55,10 @@ export class TaskController {
 
   @ApiOperation({ summary: 'Update a task' })
   @ApiParam({ name: 'id', type: String, example: createTaskId() })
-  @ApiOkResponse({ type: undefined, description: 'Task updated successfully' })
+  @ApiOkResponse({
+    type: UpdateTaskResponseBodyDto,
+    description: 'Task updated successfully',
+  })
   @ApiNotFoundResponse({
     type: CannotFindTaskException,
     description: 'Can not find task by provided `id`',
@@ -63,7 +67,7 @@ export class TaskController {
   updateTask(
     @Param('id', ParseIdPipe) id: string,
     @Body() task: UpdateTaskRequestBodyDto,
-  ): Promise<void> {
+  ): Promise<UpdateTaskResponseBodyDto> {
     return this.updateTaskUseCase.execute(id, task);
   }
 
