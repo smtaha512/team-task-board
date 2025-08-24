@@ -1,0 +1,53 @@
+services:
+  db:
+    container_name: postgres-development
+    image: postgres:16-alpine
+    ports:
+      - '5432:5432'
+    expose:
+      - 5432
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=team_task_board
+
+  db-testing:
+    container_name: postgres-testing
+    image: postgres:16-alpine
+    ports:
+      - '5433:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=team_task_board_test
+
+  front_end:
+    build: ./frontend
+    image: frontend
+    ports:
+      - 4173:4173
+    container_name: frontend
+
+  backend_server:
+    build: ./backend
+    image: backend
+    environment:
+      - APP_NAME="Team Task Board"
+      - NODE_ENV=local
+      - PORT=3000
+      - TZ=UTC
+      - ALLOWED_CORS_ORIGINS=http://localhost:5173,http://localhost:4173
+      - DATABASE_SCHEMA=team_task_board
+      - DATABASE_PASSWORD=password
+      - DATABASE_USERNAME=postgres
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=team_task_board
+      - DATABASE_ENABLE_SSL=false
+      - SRC_FILE_EXTENSION=js
+      - SRC_ROOT=dist
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
