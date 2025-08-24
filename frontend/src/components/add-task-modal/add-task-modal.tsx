@@ -30,7 +30,11 @@ export function AddTaskModal({ column, onDismiss }: AddTaskModalProps) {
 
   const { mutate, isPending } = useCreateTask();
 
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setTitle('');
+    setDescription('');
+    setIsOpen(false);
+  };
 
   function handleDismiss() {
     if (!title) {
@@ -39,15 +43,13 @@ export function AddTaskModal({ column, onDismiss }: AddTaskModalProps) {
     }
 
     const createTaskParams = {
-      body: { title, description /* status: column.id */ },
+      body: { title, description },
       columnId: column.id,
     };
 
     mutate(createTaskParams, {
       onSuccess: () => {
         onDismiss?.();
-        setTitle('');
-        setDescription('');
         closeModal();
       },
     });
@@ -59,7 +61,7 @@ export function AddTaskModal({ column, onDismiss }: AddTaskModalProps) {
         <IonText>Add new task</IonText>
         <IonIcon icon={add} />
       </IonButton>
-      <IonModal isOpen={isOpen} onDidDismiss={handleDismiss}>
+      <IonModal isOpen={isOpen} onDidDismiss={closeModal}>
         <IonPage>
           <IonHeader>
             <IonToolbar>
@@ -96,7 +98,7 @@ export function AddTaskModal({ column, onDismiss }: AddTaskModalProps) {
           <IonButton
             expand="block"
             onClick={handleDismiss}
-            disabled={isPending}
+            disabled={isPending || !title}
           >
             {isPending ? 'Creating...' : 'Create Task'}
           </IonButton>
