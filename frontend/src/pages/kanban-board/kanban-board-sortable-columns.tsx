@@ -30,7 +30,11 @@ export function KanbanBoardSortableColumns({
   const [activeTask, setActiveTask] = useState<Task | null>(null);
   const { mutate: updateTask } = useUpdateTask();
 
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { delay: 100, tolerance: 5 },
+    }),
+  );
 
   function handleDragEnd(event: DragEndEvent) {
     setActiveTask(null);
