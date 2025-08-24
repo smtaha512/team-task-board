@@ -1,3 +1,4 @@
+import { useDroppable } from '@dnd-kit/core';
 import {
   IonCard,
   IonCardContent,
@@ -9,7 +10,6 @@ import {
 } from '@ionic/react';
 import { ReactNode } from 'react';
 import { FetchColumnsResponseBodyDto } from '../../api/columns';
-import { Task } from '../../api/tasks';
 import { AddTaskModal } from '../add-task-modal/add-task-modal';
 
 interface BoardColumnProps {
@@ -17,11 +17,15 @@ interface BoardColumnProps {
   children: ReactNode;
 }
 
-const newTask: Task = { description: '', id: '', columnId: '', title: '' };
-
 export function BoardColumn({ column, children }: BoardColumnProps) {
+  const { setNodeRef, isOver } = useDroppable({ id: column.id });
+
   return (
-    <IonCol size="4">
+    <IonCol
+      size="4"
+      ref={setNodeRef}
+      style={{ backgroundColor: isOver ? 'var(--ion-color-light)' : undefined }}
+    >
       <IonCard>
         <IonCardHeader>
           <IonItem>
@@ -30,7 +34,9 @@ export function BoardColumn({ column, children }: BoardColumnProps) {
             </IonLabel>
           </IonItem>
         </IonCardHeader>
-        <IonCardContent style={{ overflowY: 'scroll', height: '75vh' }}>
+        <IonCardContent
+          style={{ overflowY: 'scroll', overflowX: 'hidden', height: '75vh' }}
+        >
           {children}
         </IonCardContent>
         <AddTaskModal column={column} />
