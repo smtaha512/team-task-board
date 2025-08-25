@@ -31,7 +31,7 @@
     - All others point to another task in the same column
   - Search/filter functionality is not implemented due to time constraints.
   - The backend structure borrows from Domain-Driven Design and Vertical Slice Architecture, but does not fully implement these patterns.
-  - There are test cases only for 1 route `POST /tasks`. More tests cases can be added in a similar fashion.
+  - There are [test cases](https://github.com/smtaha512/team-task-board/blob/main/backend/src/modules/task/adapters/controllers/task.controller.spec.ts) only for 1 route `POST /tasks`. More tests cases can be added in a similar fashion.
   - There are no test cases for use-cases/domain entities due to time limitation.
   - Frontend architecture can be refined. For example:
     - Adopt [Atomic Design](https://atomicdesign.bradfrost.com/) for component structure
