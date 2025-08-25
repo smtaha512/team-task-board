@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ColumnRepository } from '../../../../column/domain/column.repository';
 import { TaskRepository } from '../../../domain/task.repository';
+import { UpdateTaskRequestBodyDto } from './dtos/update-task.request.body.dto';
 import { UpdateTaskResponseBodyDto } from './dtos/update-task.response.body.dto';
-import { UpdateTaskRequestBodyDto } from './update-task.request.body.dto';
 
 @Injectable()
 export class UpdateTaskUseCase {

@@ -23,8 +23,8 @@ import { CreateTaskResponseBodyDto } from '../../app/use-cases/create-task/dtos/
 import { DeleteTaskUseCase } from '../../app/use-cases/delete-task/delete-task.use-case';
 import { ListAllTasksResponseBodyDto } from '../../app/use-cases/list-all-tasks/dtos/list-all-tasks.response.body.dto';
 import { ListAllTasksUseCase } from '../../app/use-cases/list-all-tasks/list-all-tasks.use-case';
+import { UpdateTaskRequestBodyDto } from '../../app/use-cases/update-task/dtos/update-task.request.body.dto';
 import { UpdateTaskResponseBodyDto } from '../../app/use-cases/update-task/dtos/update-task.response.body.dto';
-import { UpdateTaskRequestBodyDto } from '../../app/use-cases/update-task/update-task.request.body.dto';
 import { UpdateTaskUseCase } from '../../app/use-cases/update-task/update-task.use-case';
 import { CannotFindTaskException } from '../../domain/exceptions/can-not-find-task.exception';
 import { createTaskId } from '../../domain/task';
